@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}"></head>
+<body>
+
+<header th:replace="~{layout/layout :: header}"></header>
+
+<div class="container py-4">
+    <div class="card">
+        <div class="card-header" th:text="${titulo}"></div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item"><strong>ID:</strong> <span th:text="${alumno.id}"></span></li>
+                <li class="list-group-item"><strong>Nombre:</strong> <span th:text="${alumno.nombre}"></span></li>
+                <li class="list-group-item"><strong>Creditos:</strong> <span th:text="${alumno.creditos}"></span></li>
+            </ul>
+
+            <a th:href="@{/listar}" class="btn btn-primary mt-3">Volver</a>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}"></head>
+<body>
+
+<header th:replace="~{layout/layout :: header}"></header>
+
+<div class="container py-4">
+    <div class="card">
+        <div class="card-header">
+            <h3 th:text="${titulo}">Bienvenido</h3>
+        </div>
+        <div class="card-body">
+            <h4 th:text="#{text.index.titulo}">Bienvenido a la aplicacion de la escuela</h4>
+            <p>Esta es una aplicacion desarrollada con Spring Boot, Spring Security, Thymeleaf, JPA y H2.</p>
+            <ul>
+                <li>Gestion de Alumnos (CRUD)</li>
+                <li>Autenticacion y Autorizacion con Spring Security</li>
+                <li>Control de acceso basado en roles (ROLE_USER y ROLE_ADMIN)</li>
+                <li>AOP para auditoria de operaciones</li>
+                <li>Reportes en PDF y Excel</li>
+                <li>Internacionalizacion (Español e Ingles)</li>
+            </ul>
+            <p>
+                <strong>Usuarios de prueba:</strong><br/>
+                admin / 12345 (ROLE_USER + ROLE_ADMIN)<br/>
+                user / 12345 (ROLE_USER)
+            </p>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

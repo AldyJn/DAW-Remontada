@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabor Gourmet - Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Sabor Gourmet</h2>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="dashboard">
+                    <span class="icon">▣</span> Dashboard
+                </a>
+                <a href="#" class="nav-item" data-page="mesas">
+                    <span class="icon">■</span> Mesas
+                </a>
+                <a href="#" class="nav-item" data-page="pedidos">
+                    <span class="icon">☰</span> Pedidos
+                </a>
+                <a href="#" class="nav-item" data-page="platos">
+                    <span class="icon">◉</span> Menú
+                </a>
+                <a href="#" class="nav-item" data-page="clientes">
+                    <span class="icon">⚉</span> Clientes
+                </a>
+                <a href="#" class="nav-item" data-page="insumos">
+                    <span class="icon">▦</span> Inventario
+                </a>
+                <a href="#" class="nav-item" data-page="facturas">
+                    <span class="icon">$</span> Facturas
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <span id="userName"></span>
+                    <small id="userRole"></small>
+                </div>
+                <button class="btn btn-danger btn-sm" id="logoutBtn">Cerrar Sesión</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1 id="pageTitle">Dashboard</h1>
+            </header>
+
+            <div id="contentArea" class="content-area">
+                <!-- Dashboard Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">M</div>
+                        <div class="stat-info">
+                            <h3 id="totalMesas">0</h3>
+                            <p>Mesas Disponibles</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">P</div>
+                        <div class="stat-info">
+                            <h3 id="pedidosActivos">0</h3>
+                            <p>Pedidos Activos</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">F</div>
+                        <div class="stat-info">
+                            <h3 id="totalPlatos">0</h3>
+                            <p>Platos en Menú</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">C</div>
+                        <div class="stat-info">
+                            <h3 id="totalClientes">0</h3>
+                            <p>Clientes Registrados</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="welcome-message">
+                    <h2>Bienvenido al Sistema de Gestión</h2>
+                    <p>Selecciona una opción del menú lateral para comenzar</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>
