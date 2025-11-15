@@ -1,8 +1,7 @@
 package com.lab11.domain.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 
 @Entity
@@ -13,10 +12,13 @@ public class Alumno implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty
+    @NotEmpty(message = "El nombre es obligatorio")
+    @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
     private String nombre;
 
-    @NotNull
+    @NotNull(message = "Los créditos son obligatorios")
+    @Min(value = 0, message = "Los créditos no pueden ser negativos")
+    @Max(value = 100, message = "Los créditos no pueden ser mayores a 100")
     private Integer creditos;
 
     public Alumno() {

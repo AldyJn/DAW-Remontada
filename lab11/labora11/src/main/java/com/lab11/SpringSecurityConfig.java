@@ -25,6 +25,7 @@ public class SpringSecurityConfig {
                 .requestMatchers("/ver/**").hasAnyRole("USER")
                 .requestMatchers("/form/**").hasAnyRole("ADMIN")
                 .requestMatchers("/eliminar/**").hasAnyRole("ADMIN")
+                .requestMatchers("/api/**").hasAnyRole("ADMIN")
                 .requestMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
         )
@@ -38,7 +39,10 @@ public class SpringSecurityConfig {
                 .accessDeniedPage("/error_403")
         );
 
-        http.csrf(csrf -> csrf.disable());
+        // Habilitar CSRF pero deshabilitar para H2 console
+        http.csrf(csrf -> csrf
+                .ignoringRequestMatchers("/h2-console/**")
+        );
         http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
         return http.build();

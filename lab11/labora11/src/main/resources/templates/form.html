@@ -18,28 +18,40 @@
 
             <form th:action="@{/form}" th:object="${alumno}" method="post">
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Nombre</label>
+                    <label class="col-sm-2 col-form-label">
+                        <i class="bi bi-person"></i> Nombre
+                    </label>
                     <div class="col-sm-6">
                         <input type="text" th:field="*{nombre}" class="form-control"
-                               th:errorclass="'form-control alert-danger'"/> <small
-                            class="form-text text-danger"
-                            th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
+                               th:errorclass="'form-control is-invalid'"
+                               placeholder="Ingrese el nombre del alumno"
+                               required minlength="3" maxlength="100" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Creditos</label>
+                    <label class="col-sm-2 col-form-label">
+                        <i class="bi bi-award"></i> Créditos
+                    </label>
                     <div class="col-sm-6">
-                        <input type="text" th:field="*{creditos}" class="form-control"
-                               th:errorclass="'form-control alert-danger'"/> <small
-                            class="form-text text-danger"
-                            th:if="${#fields.hasErrors('creditos')}" th:errors="*{creditos}"></small>
+                        <input type="number" th:field="*{creditos}" class="form-control"
+                               th:errorclass="'form-control is-invalid'"
+                               placeholder="Ingrese los créditos"
+                               required min="0" max="100" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('creditos')}" th:errors="*{creditos}"></div>
+                        <small class="form-text text-muted">Valor entre 0 y 100</small>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-sm-6">
-                        <input type="submit" value="Guardar" class="btn btn-primary" />
+                    <div class="col-sm-6 offset-sm-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Guardar
+                        </button>
+                        <a th:href="@{/listar}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancelar
+                        </a>
                     </div>
                 </div>
 

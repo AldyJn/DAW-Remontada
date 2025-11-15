@@ -21,6 +21,8 @@ public class AlumnoPdfView extends AbstractPdfView {
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        response.setHeader("Content-Disposition", "attachment; filename=\"alumnos.pdf\"");
+
         @SuppressWarnings("unchecked")
         List<Alumno> alumnos = (List<Alumno>) model.get("alumnos");
 

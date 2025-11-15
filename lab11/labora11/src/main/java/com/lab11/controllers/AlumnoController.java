@@ -5,6 +5,8 @@ import com.lab11.services.AlumnoService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -57,13 +61,25 @@ public class AlumnoController {
     }
 
     @RequestMapping(value = "/listar", method = RequestMethod.GET)
-    public String listar(Model model, Authentication authentication, HttpServletRequest request) {
+    public String listar(@RequestParam(value = "format", required = false) String format,
+                         Model model, Authentication authentication, HttpServletRequest request) {
 
         if (authentication != null) {
             model.addAttribute("titulo", "Hola usuario ".concat(authentication.getName()));
         }
 
         model.addAttribute("alumnos", alumnoService.listar());
+
+        // Manejar exportación a PDF
+        if ("pdf".equalsIgnoreCase(format)) {
+            return "listar.pdf";
+        }
+
+        // Manejar exportación a Excel
+        if ("xls".equalsIgnoreCase(format) || "xlsx".equalsIgnoreCase(format)) {
+            return "listar.xls";
+        }
+
         return "listar";
     }
 
@@ -139,6 +155,95 @@ public class AlumnoController {
         model.put("alumno", alumno);
         model.put("titulo", "Detalle alumno: " + alumno.getNombre());
         return "ver";
+    }
+
+    // REST API Endpoints para AJAX
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/api/alumnos")
+    @ResponseBody
+    public ResponseEntity<List<Alumno>> listarAlumnos() {
+        List<Alumno> alumnos = alumnoService.listar();
+        return ResponseEntity.ok(alumnos);
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/api/alumnos/{id}")
+    @ResponseBody
+    public ResponseEntity<?> obtenerAlumno(@PathVariable Integer id) {
+        Alumno alumno = alumnoService.buscar(id);
+        if (alumno == null) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "El alumno no existe");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        return ResponseEntity.ok(alumno);
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/api/alumnos")
+    @ResponseBody
+    public ResponseEntity<?> crearAlumno(@Valid @RequestBody Alumno alumno, BindingResult result) {
+        if (result.hasErrors()) {
+            Map<String, Object> errors = new HashMap<>();
+            result.getFieldErrors().forEach(err ->
+                errors.put(err.getField(), err.getDefaultMessage())
+            );
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        alumnoService.grabar(alumno);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Alumno creado con éxito");
+        response.put("alumno", alumno);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/api/alumnos/{id}")
+    @ResponseBody
+    public ResponseEntity<?> actualizarAlumno(@PathVariable Integer id,
+                                              @Valid @RequestBody Alumno alumno,
+                                              BindingResult result) {
+        if (result.hasErrors()) {
+            Map<String, Object> errors = new HashMap<>();
+            result.getFieldErrors().forEach(err ->
+                errors.put(err.getField(), err.getDefaultMessage())
+            );
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        Alumno alumnoActual = alumnoService.buscar(id);
+        if (alumnoActual == null) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "El alumno no existe");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+
+        alumnoActual.setNombre(alumno.getNombre());
+        alumnoActual.setCreditos(alumno.getCreditos());
+        alumnoService.grabar(alumnoActual);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Alumno actualizado con éxito");
+        response.put("alumno", alumnoActual);
+        return ResponseEntity.ok(response);
+    }
+
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/api/alumnos/{id}")
+    @ResponseBody
+    public ResponseEntity<?> eliminarAlumno(@PathVariable Integer id) {
+        Alumno alumno = alumnoService.buscar(id);
+        if (alumno == null) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "El alumno no existe");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+
+        alumnoService.eliminar(id);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Alumno eliminado con éxito");
+        return ResponseEntity.ok(response);
     }
 
     private boolean hasRole(String role) {
