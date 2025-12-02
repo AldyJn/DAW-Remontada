@@ -46,18 +46,21 @@ git push origin main
 
 #### 4. Crear Servicios
 
-Para cada microservicio, repetir:
+IMPORTANTE: Cada servicio debe crearse en un proyecto separado en Railway debido a la estructura del monorepo.
 
-1. Click en "+ New" > "Empty Service"
-2. Nombrar el servicio (eureka-server, categoria-service, producto-service, api-gateway, frontend)
-3. En Settings > Source, conectar el repositorio
-4. En Settings > Build, configurar:
+Para cada microservicio, crear un nuevo proyecto:
+
+1. Click en "New Project" en Railway
+2. Seleccionar "Deploy from GitHub repo"
+3. Seleccionar tu repositorio
+4. En Settings > Source:
    - **Root Directory**: Especificar la carpeta del servicio
-     - eureka-server: `microservicio_backend/eureka-server`
-     - categoria-service: `microservicio_backend/categoria-service`
-     - producto-service: `microservicio_backend/producto-service`
-     - api-gateway: `microservicio_backend/api-gateway`
-     - frontend: `frontend`
+     - eureka-server: `lab15/microservicio_backend/eureka-server`
+     - categoria-service: `lab15/microservicio_backend/categoria-service`
+     - producto-service: `lab15/microservicio_backend/producto-service`
+     - api-gateway: `lab15/microservicio_backend/api-gateway`
+     - frontend: `lab15/frontend`
+5. Railway detectará automáticamente el Dockerfile gracias al archivo railway.toml
 
 #### 5. Configurar Variables de Entorno
 
