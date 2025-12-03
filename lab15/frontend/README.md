@@ -16,7 +16,7 @@ Frontend moderno y profesional para el sistema de gestión de productos y catego
 
 ## 📋 Requisitos Previos
 
-- Node.js 16+ 
+- Node.js 20+
 - npm o yarn
 - Backend ejecutándose en `http://localhost:8080`
 
